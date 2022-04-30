@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Онлайн программа для выбора случайной строки или слова из списка. Может применяться для определения победителя в конкурсе, выбора случайного номера или других элементов." />
+    <title>Зубрилка</title>
+	<script type="text/javascript" >
+		function readFile(object) {
+			var file = object.files[0]
+			var reader = new FileReader()
+			reader.onload = function() {
+				document.getElementById('myf').value = reader.result;				
+				var str = document.getElementById('myf').value;
+				var arr = new Array;
+				while (str.length!=0){
+				if (str.indexOf('\n') >= 0) {
+					fsb=str.indexOf(';');
+					vol_1=str.slice(0, fsb)	
+					str=str.slice(fsb+1);
+					fsb=str.indexOf('\n');
+					vol_2=str.slice(0, fsb)
+					arr.push([vol_1,vol_2]);
+					str=str.slice(fsb+1);
+				} else {
+						str= str.slice(str.length);
+					}
+				}
+				random_str = Math.floor(Math.random() * arr.length);
+				if (document.getElementById("revers").checked) {
+					document.getElementById('choose').value = arr[random_str][1];
+				}
+				else {
+					document.getElementById('choose').value = arr[random_str][0];
+				}
+				document.getElementById('secret').value = random_str;
+				document.getElementById('length_word').innerHTML = arr.length;
+			}
+			reader.readAsText(file);
+		}
+		
+		function go() {
+			var str = document.getElementById('myf').value;
+			//var arr = text.split("/n");
+			var arr = new Array;
+			
+			vol_1 = undefined;
+			vol_2 = undefined;
+			while (str.length!=0){
+				if (str.indexOf('\n') >= 0) {
+					if (fsb=str.indexOf(';') != -1) {
+						fsb=str.indexOf(';');
+						vol_1=str.slice(0, fsb)	
+						str=str.slice(fsb+1);
+					}
+					fsb=str.indexOf('\n');
+					vol_2=str.slice(0, fsb)
+					if (typeof vol_1 !== "undefined") {
+						arr.push([vol_1,vol_2]);
+					}
+					else arr.push([vol_2]);
+					str=str.slice(fsb+1);
+				} else {
+					if (fsb=str.indexOf(';') != -1) {
+						fsb=str.indexOf(';');
+						vol_1=str.slice(0, fsb)	
+						str=str.slice(fsb+1);
+					}
+					vol_2=str;
+					if (typeof vol_1 !== "undefined") {
+						arr.push([vol_1,vol_2]);
+					}
+					else arr.push([vol_2]);
+					
+					str= str.slice(str.length);
+				}
+			}
+			txtarea = "";
+			for (let i = 0; i < arr.length; i++) { 
+			  //alert(i);
+			  if (typeof vol_1 !== "undefined") {
+				txtarea = txtarea+arr[i][0]+";"+arr[i][1]+"\n";
+			  }
+			  else txtarea = txtarea+arr[i][0]+"\n";
+			}
+			previous = document.getElementById('secret_id_arr').value;
+			random_str = Math.floor(Math.random() * arr.length);
+			while ((previous == random_str) & (arr.length>1)) {
+			random_str = Math.floor(Math.random() * arr.length);
+			}
+			
+			document.getElementById('myf').value = txtarea;
+			if (document.getElementById("revers").checked) {
+				document.getElementById('choose').value = arr[random_str][1];
+			}
+			else {
+				document.getElementById('choose').value = arr[random_str][0];
+			}
+			document.getElementById('secret_id_arr').value = random_str;
+			document.getElementById('secret').value = random_str;
+			document.getElementById('length_word').innerHTML= arr.length;
+		}
+		
+		function knowit() {
+			var str = document.getElementById('myf').value;
+				//var arr = text.split("/n");
+			var arr = new Array;
+			while (str.length!=0){
+					if (str.indexOf('\n') >= 0) {
+						if (fsb=str.indexOf(';') != -1) {
+							fsb=str.indexOf(';');
+							vol_1=str.slice(0, fsb)	
+							str=str.slice(fsb+1);
+						}
+						fsb=str.indexOf('\n');
+						vol_2=str.slice(0, fsb)
+						if (typeof vol_1 !== "undefined") {
+							arr.push([vol_1,vol_2]);
+						}
+						else arr.push([vol_2]);
+						str=str.slice(fsb+1);
+					} else {
+						str= str.slice(str.length);
+					}
+				}
+			arr.splice(document.getElementById('secret').value,1);
+			
+			if (arr.length !=0) {
+				txtarea = "";
+				for (let i = 0; i < arr.length; i++) { 
+				  //alert(i);
+				  if (typeof vol_1 !== "undefined") {
+					txtarea = txtarea+arr[i][0]+";"+arr[i][1]+"\n";
+				  }
+				  else txtarea = txtarea+arr[i][0]+"\n";
+				}
+				random_str = Math.floor(Math.random() * arr.length);
+				
+				document.getElementById('myf').value = txtarea;
+				if (document.getElementById("revers").checked) {
+				document.getElementById('choose').value = arr[random_str][1];
+				}
+				else {
+					document.getElementById('choose').value = arr[random_str][0];
+				}
+				document.getElementById('secret').value = random_str;		
+				document.getElementById('length_word').innerHTML = arr.length;
+			}
+			else {
+				document.getElementById('myf').value = "";
+				document.getElementById('choose').value = "";
+				document.getElementById('secret').value = "";		
+				document.getElementById('length_word').innerHTML = arr.length;
+			}
+
+		}
+		
+		function translete() {
+		
+				var str = document.getElementById('myf').value;
+				var arr_pos = document.getElementById('secret').value;
+				var arr_choose = document.getElementById('choose').value;
+			//var arr = text.split("/n");
+				var arr = new Array;
+				
+				while (str.length!=0){
+					if (str.indexOf('\n') >= 0) {
+						if (fsb=str.indexOf(';') != -1) {
+							fsb=str.indexOf(';');
+							vol_1=str.slice(0, fsb)	
+							str=str.slice(fsb+1);
+						}
+						fsb=str.indexOf('\n');
+						vol_2=str.slice(0, fsb)
+						if (typeof vol_1 !== "undefined") {
+							arr.push([vol_1,vol_2]);
+						}
+						else arr.push([vol_2]);
+						str=str.slice(fsb+1);
+					} else {
+						if (fsb=str.indexOf(';') != -1) {
+							fsb=str.indexOf(';');
+							vol_1=str.slice(0, fsb)	
+							str=str.slice(fsb+1);
+						}
+						vol_2=str;
+						if (typeof vol_1 !== "undefined") {
+							arr.push([vol_1,vol_2]);
+						}
+						else arr.push([vol_2]);
+						
+						str= str.slice(str.length);
+					}
+				}
+				
+				if (arr_choose == arr[arr_pos][0]) {
+					if (typeof arr[arr_pos][1] !== "undefined"){
+						document.getElementById('choose').value = arr[arr_pos][1];
+					}
+					else document.getElementById('choose').value = "не определено";
+				}
+				else {
+					document.getElementById('choose').value = arr[arr_pos][0];
+				}		
+		}
+		
+		function showlist() {
+			if (document.getElementById('showlist').checked) {
+				document.getElementById('myf').style.display = "inline";
+				document.getElementById('myf').style.width = "460px";
+				document.getElementById('myf').style.height = "360px";
+				document.getElementById('br1').style.display = "block";
+				document.getElementById('br2').style.display = "block";
+			}
+			if (!document.getElementById('showlist').checked) {
+				document.getElementById('myf').style.display = "none";
+				document.getElementById('br1').style.display = "none";
+				document.getElementById('br2').style.display = "none";
+			}
+		}
+		
+		function test() {
+			if ((document.getElementById("showlist").checked) & (document.getElementById('myf').value.length > 0)) go();
+			else {
+				var input = document.createElement('input');
+				input.type = 'file';
+				input.onchange = e => { 
+				   var file = e.target.files[0]; 
+				   var reader = new FileReader()
+				reader.onload = function() {
+					document.getElementById('myf').value = reader.result;				
+					var str = document.getElementById('myf').value;
+					var arr = new Array;
+					while (str.length!=0){
+				if (str.indexOf('\n') >= 0) {
+					if (fsb=str.indexOf(';') != -1) {
+						fsb=str.indexOf(';');
+						vol_1=str.slice(0, fsb)	
+						str=str.slice(fsb+1);
+					}
+					fsb=str.indexOf('\n');
+					vol_2=str.slice(0, fsb)
+					if (typeof vol_1 !== "undefined") {
+						arr.push([vol_1,vol_2]);
+					}
+					else arr.push([vol_2]);
+					str=str.slice(fsb+1);
+				} else {
+					if (fsb=str.indexOf(';') != -1) {
+						fsb=str.indexOf(';');
+						vol_1=str.slice(0, fsb)	
+						str=str.slice(fsb+1);
+					}
+					vol_2=str;
+					if (typeof vol_1 !== "undefined") {
+						arr.push([vol_1,vol_2]);
+					}
+					else arr.push([vol_2]);
+					
+					str= str.slice(str.length);
+				}
+			}
+					random_str = Math.floor(Math.random() * arr.length);
+					document.getElementById('secret_id_arr').value = random_str;
+					
+					if (document.getElementById("revers").checked) {
+						document.getElementById('choose').value = arr[random_str][1];
+					}
+					else {
+						document.getElementById('choose').value = arr[random_str][0];
+					}
+					document.getElementById('secret').value = random_str;
+					document.getElementById('length_word').innerHTML = arr.length;
+				}
+				reader.readAsText(file);
+				}
+				input.click();
+			}
+		}
+		
+</script>
+<style>
+body {
+	font-family: arial;
+}
+.but {
+	color: #fff;
+	border: none;
+	background-color: green;
+	padding: 10px;
+	width: 152px;
+}
+.btn_grn {
+	background-color:green;
+}
+.btn_grn:hover {
+	background-color:#53bd53;
+}
+.btn_red {
+	background-color:red;
+}
+.btn_red:hover {
+	background-color:#ff7c7c;
+}
+.btn_grey {
+	background-color:grey;
+}
+.btn_grey:hover {
+	background-color:#bfbebe;
+}
+.btn_blue {
+	background-color:#005174;
+}
+.btn_blue:hover {
+	background-color:#7171ff;
+}
+
+.logo {
+	font-size: 30px;
+	font-weight:bold;
+	font-family:arial;
+}
+
+.logogr {
+	color:green;
+}
+.logord {
+	color:red;
+}
+.logogy {
+	color:grey;
+}
+.logobl {
+	color:#005174;
+}
+
+
+
+
+
+</style>
+
+</head>
+<body style="text-align:center;">
+<br>
+<div class="logo"><span class="logogr">З</span><span class="logogy">У</span><span class="logord">Б</span><span class="logobl">Р</span><span class="logogr">И</span><span class="logogy">Л</span><span class="logord">К</span><span class="logobl">А</span><span style="font-size:14px;">™</span></div>
+<input name="myFile" type="file" id="file" style="display: none;">
+<button style="display: none;" class="but btn_blue" onclick="readFile(document.getElementById('file'))">ЗАГРУЗИТЬ</button>
+<br>
+<br>
+<button style="display: none;" class="but btn_blue" onclick="go()">GO</button>
+<button class="but btn_blue" onclick="test()">ЗАГРУЗИТЬ</button>
+&nbsp;&nbsp;
+<input type="checkbox" id="revers" name="revers">
+<label for="revers">Revers</label>
+<input type="checkbox" id="showlist" name="revers" onchange="showlist()">
+<label for="showlist">Show list</label>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Всего слов:<span id="length_word">&nbsp;0</span>
+<br>
+<br>
+<textarea rows="1" style="background-color: #bfbebe; width: 460px; height: 81px; text-align: center; /*! padding-top: 20px; */ font-family: arial; font-size: 20px; font-weight: bold;line-height: 81px;" readonly="readonly" id="choose"></textarea>
+<textarea style="display:none;" rows="1" style="background-color:#E6F7D1;" readonly="readonly" id="secret"></textarea>
+<textarea style="display:none;" rows="1" style="background-color:#E6F7D1;" readonly="readonly" id="secret_id_arr"></textarea>
+<p id="br2" style="display: none;"></p>
+<p id="br1" style="display: none;"></p>
+<textarea style="display:none;" rows="20"  id="myf" style="width:460px; height:360px;"></textarea>
+<br>
+<br>
+<button class="but btn_grn" onclick="knowit()">ЗНАЮ</button>&nbsp;<button class="but btn_red" onclick="go()">НЕ ЗНАЮ</button>&nbsp;<button class="but btn_grey"onclick="translete()">ПЕРЕВОД</button>
+<br>
+<br>
+</body>
+</html>
